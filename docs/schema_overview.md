@@ -12,6 +12,7 @@ WHERE DateKey BETWEEN 20250101 AND 20251231
 # monthly_aggregation
 d.Month AS MonthKey
 
+# shipment_joins
 FROM Recy.factScrapSalesShipments s
 JOIN Recy.dimDate d
     ON d.DateKey = s.DateKey
@@ -26,20 +27,7 @@ JOIN Recy.dimMaterial m
 LEFT JOIN Recy.dimVehicleType vt
     ON vt.VehicleTypeKey = s.VehicleTypeKey
 
-FROM Recy.factScrapSalesShipments s
-JOIN Recy.dimDate d
-    ON d.DateKey = s.DateKey
-JOIN Recy.dimLocation loc
-    ON loc.LocationKey = s.LocationKey
-JOIN Recy.dimSupplier sup
-    ON sup.SupplierKey = s.SupplierKey
-JOIN Recy.dimConsumer c
-    ON c.ConsumerKey = s.ConsumerKey
-JOIN Recy.dimMaterial m
-    ON m.MaterialKey = s.MaterialKey
-LEFT JOIN Recy.dimVehicleType vt
-    ON vt.VehicleTypeKey = s.VehicleTypeKey
-
+# trip_joins
 FROM Recy.factTripSnapshot t
 JOIN Recy.dimDate d
     ON d.DateKey = t.DateKey
@@ -52,6 +40,7 @@ LEFT JOIN Recy.dimDriverHackathon drv
 JOIN Recy.dimDispatcherHackathon disp
     ON disp.DispatcherHackKey = t.DispatcherHackKey
 
+# transport_delay_joins
 FROM Recy.factTransportDelays td
 JOIN Recy.dimDate d
     ON d.DateKey = td.DateKey
@@ -60,10 +49,12 @@ JOIN Recy.dimLocation loc
 JOIN Recy.dimDriverHackathon drv
     ON drv.DriverHackKey = td.DriverHackKey
 
+# to_link_delays_to_trips
 td.DateKey = t.DateKey
 td.LocationKey = t.LocationKey
 td.TripNumber = t.TripNumber
 
+# inventory_joins
 FROM Recy.factInventorySnapshot i
 JOIN Recy.dimDate d
     ON d.DateKey = i.DateKey
@@ -72,11 +63,13 @@ JOIN Recy.dimLocation loc
 JOIN Recy.dimInventory inv
     ON inv.InventoryKey = i.InventoryKey
 
+# month_end_inventory_logic
 ROW_NUMBER() OVER (
     PARTITION BY i.LocationKey, d.Month, i.InventoryKey
     ORDER BY i.DateKey DESC
 ) AS rn
 
+#filter
 WHERE rn = 1
 
 
