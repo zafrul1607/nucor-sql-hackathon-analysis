@@ -1,0 +1,17 @@
+# SQL Server / database files
+*.bak
+*.trn
+*.mdf
+*.ldf
+
+# Temporary files
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
