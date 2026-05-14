@@ -9,6 +9,7 @@ All analysis is limited to 2025:
 ```sql
 WHERE DateKey BETWEEN 20250101 AND 20251231
 
+# monthly_aggregation
 d.Month AS MonthKey
 
 FROM Recy.factScrapSalesShipments s
