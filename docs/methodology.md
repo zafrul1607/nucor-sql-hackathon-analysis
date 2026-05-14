@@ -9,6 +9,7 @@ All analysis is limited to 2025 using:
 ```sql
 DateKey BETWEEN 20250101 AND 20251231
 
+```
 ## Main Analytical Areas
 1. Shipment Profitability
 
